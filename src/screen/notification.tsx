@@ -1,18 +1,32 @@
-import React from 'react';
-import './NotificationsScreen.css'; // Import your styles
-import NotifcIcon from "./../assets/images/heart.png";
+import React, { useEffect, useState } from 'react';
+import './NotificationsScreen.css';
+import NotifcIcon from './../assets/images/heart.png';
+import axios from 'axios';
 
-
-const notificationData = [
-    { title: "Title 1", meesage: "message 1", timestamp: "2 minutes ago" },
-    { title: "Title 2", meesage: "message 2", timestamp: "5 minutes ago" },
-    { title: "Title 3", meesage: "message 3", timestamp: "10 minutes ago" },
-    { title: "Title 3", meesage: "message 3", timestamp: "1 hour ago" },
-    { title: "Title 3", meesage: "message 3", timestamp: "yesterday" },
-    { title: "Title 3", meesage: "message 3", timestamp: "1 month ago" }
-]
+interface Notification {
+    title: string;
+    message: string;
+    timestamp: string;
+}
 
 const NotificationsScreen: React.FC = () => {
+    const [notificationData, setNotificationData] = useState<Notification[]>([]);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('https://eog3obz6g1ifng9.m.pipedream.net'); // Replace with your API URL
+            const data = response.data;
+            console.log('fetching data:', data);
+            setNotificationData(data); // Update state with fetched data
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
         <div className="notifications-container">
             <div className="notifications-list">
@@ -23,8 +37,7 @@ const NotificationsScreen: React.FC = () => {
                         </div>
                         <div className="notification-content">
                             <h3>{notification.title}</h3>
-                            <p>{notification.meesage}</p>
-
+                            <p>{notification.message}</p>
                         </div>
                         <div className="notification-timestamp">{notification.timestamp}</div>
                     </div>
