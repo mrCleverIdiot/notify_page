@@ -1,0 +1,12 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Building the production-ready app...
+      - npm install
+      - npm run build
+
+artifacts:
+  files:
+    - build/**/*  # Assuming your build artifacts are in the 'build' directory
