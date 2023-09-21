@@ -7,10 +7,11 @@ phases:
       - npm install
       - npm run build
 
+artifacts:
+  files:
+    - '**/*'
+
 post_build:
   commands:
     - echo Syncing build artifacts to S3...
-    - aws s3 sync build/ s3://prod-society-fe/
-
-artifacts:
-  files: []  # No need to specify files since the sync is done in post_build
+    - aws s3 sync build/ s3://your-s3-bucket-name/
